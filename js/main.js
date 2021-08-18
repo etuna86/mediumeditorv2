@@ -5,25 +5,21 @@
     init: function () {
       this.button = this.document.createElement('button');
       this.button.classList.add('medium-editor-action');
-      var att = document.createAttribute("data-comment");       // Create a "class" attribute
-        att.value = "comment1";   
+      var commentEl=document.createElement('comment');
+      var attr = document.createAttribute("data-comment");       // Create a "class" attribute
+      attr.value = "comment1";   
       //this.button.createAttribute('data-comment');
-      this.button.setAttributeNode(att);
-      this.button.innerHTML = '<b>Comment</b>';
+      commentEl.setAttributeNode(attr);
+      commentEl.appendChild(document.createTextNode('Comment'));
+      this.button.appendChild(commentEl);
+
+      //this.on(this.button, 'click', replaceSelectedText());  bu kısım tekrar incelenecek
     },
   
     getButton: function () {
       return this.button;
     }
   });
-
-
- addEventListener('click',function(){
-    var myFunction = function() {
-        var attribute = this.getAttribute("data-comment");
-        alert(attribute);
-    };
- })
 
   var editor = new MediumEditor('.editable', {
     toolbar: {
@@ -49,6 +45,72 @@
    // buttonLabels: 'fontawesome', // use font-awesome icons for other buttons
  
   });
+
+
+  addEventListener('click',function(e){
+   // console.warn("target: ",e.target.dataset.comment);
+    var currentCom=e.target.dataset.comment;
+    if(currentCom=="comment1"){
+      replaceSelectedText();
+    }
+    else{
+      return;
+    }
+
+  });
+
+//  selected fonksiyonumuz
+function replaceSelectedText() {
+  console.warn("tıklayınız");
+  var sel, range,replacementText,newNode;
+  if (window.getSelection) {
+      sel = window.getSelection();
+
+      newNode = document.createElement("comment");
+      var att = document.createAttribute("class"); 
+      att.value = "highlight";   
+      newNode.setAttributeNode(att);
+      newNode.appendChild(document.createTextNode(sel));
+
+      //replacementText = '<b class="highlight">' + sel + '<b>';
+      if (sel.rangeCount) {
+          range = sel.getRangeAt(0);
+          range.deleteContents();
+          //range.insertNode(document.createTextNode(replacementText));
+          range.insertNode(newNode);
+
+          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+            keyboard: false
+          })
+
+          //var myModal = document.getElementById('exampleModal') // relatedTarget
+          myModal.show()
+
+      }
+  } else if (document.selection && document.selection.createRange) {
+      range = document.selection.createRange();
+      range.text = replacementText;
+  }
+}
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -121,7 +183,7 @@
 
 
         //selected color 
-        document.addEventListener('pointerup', e => {
+       /* document.addEventListener('pointerup', e => {
             const selection = window.getSelection();
           
             if (selection.type === 'Range') {
@@ -140,8 +202,10 @@
             el.classList.add('highlight2');
             /*setTimeout(() => {
               el.classList.add('highlight');
-            }, 0);*/
-          }
+            }, 0);
+          } */
+
+
 
 
           function changeSelectedText(){
@@ -199,39 +263,13 @@ function getSelectedText3(){
  textarea.value =  textarea.value.substring(0,start) + replace + textarea.value.substring(end,len);
 }
 
-
+/*
 var att = document.createAttribute("data-comment");       // Create a "class" attribute
 att.value = "comment1";   
 //this.button.createAttribute('data-comment');
 this.button.setAttributeNode(att);
-this.button.innerHTML = '<b>Comment</b>';
+this.button.innerHTML = '<b>Comment</b>';  */
 
 
 
 
-
-
-//  selected fonksiyonumuz
-function replaceSelectedText() {
-    var sel, range,replacementText,newNode;
-    if (window.getSelection) {
-        sel = window.getSelection();
-
-        newNode = document.createElement("b");
-        var att = document.createAttribute("class"); 
-        att.value = "highlight";   
-        newNode.setAttributeNode(att);
-        newNode.appendChild(document.createTextNode(sel));
-
-        //replacementText = '<b class="highlight">' + sel + '<b>';
-        if (sel.rangeCount) {
-            range = sel.getRangeAt(0);
-            range.deleteContents();
-            //range.insertNode(document.createTextNode(replacementText));
-            range.insertNode(newNode);
-        }
-    } else if (document.selection && document.selection.createRange) {
-        range = document.selection.createRange();
-        range.text = replacementText;
-    }
-}
