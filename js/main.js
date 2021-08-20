@@ -1,26 +1,26 @@
 
-    var text='';
+  var text='';
   
+
+  var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+    keyboard: false
+  })
+
+ 
   if(!localStorage.getItem('text')){
     text="<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> ";
   
   }else{
     text=localStorage.getItem('text');
   }
-  
 
-  
-  
   getAllText('editabletext',text);
-
 
   function getAllText(getElementID,text){
      var el= document.getElementById(getElementID);
      el.innerHTML=text;
   }
 
-  
-  
   var HighlighterButton = MediumEditor.Extension.extend({
     name: 'highlighter',
   
@@ -76,6 +76,9 @@
     var editableText=document.getElementById('editabletext');
     var currentText=editableText.innerHTML;
      var currentCom=e.target.dataset.comment;
+     var currentClass=e.target.classList;
+     console.warn("currentClass 1; ",e.target);
+     console.warn("currentClass; ",currentClass);
      localStorage.setItem("text",currentText);
  
      if(currentCom=="comment1"){
@@ -108,6 +111,12 @@ function replaceSelectedText() {
       var att = document.createAttribute("class"); 
       att.value = "highlight";   
       newNode.setAttributeNode(att);
+      var att = document.createAttribute("data-commentid"); 
+      var newCommentId=Date.now();
+      //newNode.ondblclick = function() { alert('blah'); };
+      newNode.ondblclick = function(ev) { seeComment(ev);}
+      att.value = newCommentId;  
+      newNode.setAttributeNode(att);
       newNode.appendChild(content);
 
       //newNode.appendChild(document.createTextNode(sel));
@@ -131,10 +140,7 @@ function replaceSelectedText() {
           //range.insertNode(document.createTextNode(replacementText));
           range.insertNode(newNode);
 
-          var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-            keyboard: false
-          })
-
+   
           //var myModal = document.getElementById('exampleModal') // relatedTarget
           myModal.show()
 
@@ -152,7 +158,15 @@ function replaceSelectedText() {
 }
 
 
+function seeComment(e){
+  console.warn("seeComment element: ",e);
+  console.warn("seeComment element dataset: ",e.target.dataset.commentId);
+  myModal.show()
+}
 
+function removeElement(){
+
+}
 
 
 
