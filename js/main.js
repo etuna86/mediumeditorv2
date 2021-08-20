@@ -1,4 +1,26 @@
 
+    var text='';
+  
+  if(!localStorage.getItem('text')){
+    text="<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> ";
+  
+  }else{
+    text=localStorage.getItem('text');
+  }
+  
+
+  
+  
+  getAllText('editabletext',text);
+
+
+  function getAllText(getElementID,text){
+     var el= document.getElementById(getElementID);
+     el.innerHTML=text;
+  }
+
+  
+  
   var HighlighterButton = MediumEditor.Extension.extend({
     name: 'highlighter',
   
@@ -49,7 +71,11 @@
 
   addEventListener('click',function(e){
    // console.warn("target: ",e.target.dataset.comment);
+   var editableText=document.getElementById('editabletext');
+   var currentText=editableText.innerHTML;
     var currentCom=e.target.dataset.comment;
+    localStorage.setItem("text",currentText);
+
     if(currentCom=="comment1"){
       replaceSelectedText();
     }
@@ -66,15 +92,36 @@ function replaceSelectedText() {
   if (window.getSelection) {
       sel = window.getSelection();
 
+      console.warn("document.selection.createRange().htmlText: ",window.getSelection().getRangeAt(0));
+      range=window.getSelection().getRangeAt(0);
+      var content = range.extractContents();
+      console.warn("content : ",content);
+
+      console.warn("sel1: ",sel);
+      console.warn("sel1.range: ",sel.getRangeAt(0));
       newNode = document.createElement("comment");
       var att = document.createAttribute("class"); 
       att.value = "highlight";   
       newNode.setAttributeNode(att);
-      newNode.appendChild(document.createTextNode(sel));
+      newNode.appendChild(content);
+      
+      //newNode.appendChild(document.createTextNode(sel));
+      /*if (sel.anchorNode && (sel.anchorNode == sel.extentNode)) {
+        if (sel.toString() == sel.anchorNode.textContent) {
+          sel = sel.anchorNode.parentElement.outerHTML;
+        }
+      }*/
+
+      newNode.insertAdjacentHTML("beforeend", sel);
+      //newNode.appendChild(document.createElementNode(sel));
+      console.warn('sel', sel);
+      //newNode.appendChild(sel.focusNode);
 
       //replacementText = '<b class="highlight">' + sel + '<b>';
+      
       if (sel.rangeCount) {
           range = sel.getRangeAt(0);
+          console.warn("range: ",range);
           range.deleteContents();
           //range.insertNode(document.createTextNode(replacementText));
           range.insertNode(newNode);
@@ -91,6 +138,12 @@ function replaceSelectedText() {
       range = document.selection.createRange();
       range.text = replacementText;
   }
+
+    var editableText=document.getElementById('editabletext');
+    var currentText=editableText.innerHTML;
+
+    console.warn("currentText: ",currentText);
+    localStorage.setItem("text",currentText);
 }
 
 
