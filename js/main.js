@@ -71,17 +71,22 @@
 
   addEventListener('click',function(e){
    // console.warn("target: ",e.target.dataset.comment);
-   var editableText=document.getElementById('editabletext');
-   var currentText=editableText.innerHTML;
-    var currentCom=e.target.dataset.comment;
-    localStorage.setItem("text",currentText);
 
-    if(currentCom=="comment1"){
-      replaceSelectedText();
-    }
-    else{
-      return;
-    }
+   if(!document.getElementById('editabletext') !=undefined){
+    var editableText=document.getElementById('editabletext');
+    var currentText=editableText.innerHTML;
+     var currentCom=e.target.dataset.comment;
+     localStorage.setItem("text",currentText);
+ 
+     if(currentCom=="comment1"){
+       replaceSelectedText();
+     }
+     else{
+       return;
+     }
+   }
+
+
 
   });
 
@@ -104,7 +109,7 @@ function replaceSelectedText() {
       att.value = "highlight";   
       newNode.setAttributeNode(att);
       newNode.appendChild(content);
-      
+
       //newNode.appendChild(document.createTextNode(sel));
       /*if (sel.anchorNode && (sel.anchorNode == sel.extentNode)) {
         if (sel.toString() == sel.anchorNode.textContent) {
