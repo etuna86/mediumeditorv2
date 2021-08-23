@@ -12,6 +12,106 @@
   
   }else{
     text=localStorage.getItem('text');
+
+
+
+
+
+  
+    
+    document.addEventListener("DOMContentLoaded", function(e) {
+   // var tag = document.createElement("div");
+   var tag = document.getElementById("editabletext");
+   //var tags= [];
+   var tags=tag.getElementsByTagName("comment");
+
+   var arr = Array.from(tags); 
+   //tags = [...tag.getElementsByTagName("comment")];
+   console.warn("tags12312321312; ", tags);
+   
+   console.warn("tags12312321312; ", tag.getElementsByTagName("comment").length);
+   //tags=Array.from(tag.getElementsByTagName("comment"));
+
+
+   for (let i = 0; i < tags.length; i++) {
+    console.warn("tags; ", tags[i]);
+    tag.getElementsByTagName("comment")[i].ondblclick = function(ev) { seeComment(ev);}
+
+    var attr = document.createAttribute("data-comment234");       // Create a "class" attribute
+    attr.value = "comment2123";   
+    //this.button.createAttribute('data-comment');
+    //tags[i].setAttributeNode(attr);
+    //tag.innerHTML=
+    console.warn("attr; ",);
+    tag.getElementsByTagName("comment")[i].setAttributeNode(attr);
+
+    
+  } 
+    })
+
+    // var myJsonString = JSON.stringify(arr);
+      /*console.warn("myJsonString; ",tags.item);
+
+    for (let i = 0; i < tags.length; i++) {
+      console.warn("tags; ", tags[i]);
+      tag.getElementsByTagName("comment")[i].ondblclick = function(ev) { seeComment(ev);}
+
+      var attr = document.createAttribute("data-comment234");       // Create a "class" attribute
+      attr.value = "comment2123";   
+      //this.button.createAttribute('data-comment');
+      //tags[i].setAttributeNode(attr);
+      //tag.innerHTML=
+      console.warn("attr; ",);
+      tag.getElementsByTagName("comment")[i].setAttributeNode(attr);
+
+      
+    }  */
+
+    //var nodeEl=
+    //nodeEl.ondblclick = function(ev) { seeComment(ev);}
+    /*tags.forEach(element => {
+        console.warn("element;",element);
+    }); */
+
+    /*
+    Array.from(document.getElementById("editabletext")).forEach(function(item) {
+      console.warn("item.id= ",item);
+   });
+*/
+  /*
+      for (key in tags) {
+        console.warn(key);
+        console.warn("kyess ;",key.namedItem);
+    } */
+    /*
+    for (let i = 0; i < tags.length; i++) {
+      console.warn("tags; ", tags[i]);
+      tag.getElementsByTagName("comment")[i].ondblclick = function(ev) { seeComment(ev);}
+
+      var attr = document.createAttribute("data-comment234");       // Create a "class" attribute
+      attr.value = "comment2123";   
+      //this.button.createAttribute('data-comment');
+      //tags[i].setAttributeNode(attr);
+      //tag.innerHTML=
+      console.warn("attr; ",);
+      tag.getElementsByTagName("comment")[i].setAttributeNode(attr);
+
+      
+    }
+    */
+    //tags
+
+    /*
+    console.warn("tag; ",tags);
+    tag.innerHTML = text;
+
+      var t = tag.getElementsByTagName("comment");
+      var ele = [];
+      for (var i = 0; i < t.length; i++) {
+        ele.push(t[i].tagName);
+      }
+
+     console.log(ele); */
   }
 
   getAllText('editabletext',text);
@@ -154,7 +254,7 @@ function replaceSelectedText() {
     var currentText=editableText.innerHTML;
 
     console.warn("currentText: ",currentText);
-    localStorage.setItem("text",currentText);
+    localStorage.setItem("text",JSON.stringify(currentText));
 }
 
 
