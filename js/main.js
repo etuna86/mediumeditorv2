@@ -259,9 +259,11 @@ function replaceSelectedText() {
 
 
 function seeComment(e){
-  console.warn("seeComment element: ",e);
-  console.warn("seeComment element dataset: ",e.target.dataset.commentId);
+  console.warn("seeComment element: ",e.target);
+  console.warn("seeComment element dataset: ",e.target.dataset.commentid);
   myModal.show()
+
+  getCommentID(e.target.dataset.commentid)
 }
 
 function removeElement(){
@@ -269,6 +271,58 @@ function removeElement(){
 }
 
 
+
+function getCommentID(getValue){
+  var commentTextArea = document.getElementById('commenttextarea');
+  var comments = document.getElementById('comments');
+  var modalForm = document.getElementById('modalform');
+
+  if(localStorage.getItem(getValue)){
+    comments.innerHTML=localStorage.getItem(getValue);
+  }
+  else{
+    localStorage.setItem(getValue,"")
+  }
+
+
+  console.warn("asdadad; ",commentTextArea.value);
+  //localStorage.setItem(getValue,commentTextArea.value);
+
+
+  var att = document.createAttribute("data-comid"); 
+  var att2 = document.createAttribute("data-tcomid"); 
+  var att3 = document.createAttribute("data-formid"); 
+
+  //var newCommentId=Date.now();
+  //newNode.ondblclick = function() { alert('blah'); };
+  //newNode.ondblclick = function(ev) { seeComment(ev);}
+  att.value = getValue;  
+  att2.value = getValue;  
+  att3.value = getValue;  
+  comments.setAttributeNode(att);
+  commentTextArea.setAttributeNode(att2);
+  modalForm.setAttributeNode(att3);
+  
+  //comments.appendChild(content);
+}
+
+
+function saveComment(){
+  var commentTextArea = document.getElementById('commenttextarea');
+  var comments = document.getElementById('comments');
+  var getComID=commentTextArea.dataset.tcomid;
+
+  //var getTextValue=document.querySelector(`[data-foo="${getComID}"]`)
+  var getTextValue=document.querySelector(`[data-tcomid="${getComID}"]`)
+
+  console.warn("comments.dataset; ",commentTextArea.dataset.tcomid);
+  console.warn("getTextValue; ",getTextValue.value);
+  comments.innerHTML=getTextValue.value;
+  localStorage.setItem(getComID,getTextValue.value);
+  
+  document.getElementById('modalform').reset();
+  
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
