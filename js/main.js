@@ -47,71 +47,8 @@
 
     
   } 
-    })
+    });
 
-    // var myJsonString = JSON.stringify(arr);
-      /*console.warn("myJsonString; ",tags.item);
-
-    for (let i = 0; i < tags.length; i++) {
-      console.warn("tags; ", tags[i]);
-      tag.getElementsByTagName("comment")[i].ondblclick = function(ev) { seeComment(ev);}
-
-      var attr = document.createAttribute("data-comment234");       // Create a "class" attribute
-      attr.value = "comment2123";   
-      //this.button.createAttribute('data-comment');
-      //tags[i].setAttributeNode(attr);
-      //tag.innerHTML=
-      console.warn("attr; ",);
-      tag.getElementsByTagName("comment")[i].setAttributeNode(attr);
-
-      
-    }  */
-
-    //var nodeEl=
-    //nodeEl.ondblclick = function(ev) { seeComment(ev);}
-    /*tags.forEach(element => {
-        console.warn("element;",element);
-    }); */
-
-    /*
-    Array.from(document.getElementById("editabletext")).forEach(function(item) {
-      console.warn("item.id= ",item);
-   });
-*/
-  /*
-      for (key in tags) {
-        console.warn(key);
-        console.warn("kyess ;",key.namedItem);
-    } */
-    /*
-    for (let i = 0; i < tags.length; i++) {
-      console.warn("tags; ", tags[i]);
-      tag.getElementsByTagName("comment")[i].ondblclick = function(ev) { seeComment(ev);}
-
-      var attr = document.createAttribute("data-comment234");       // Create a "class" attribute
-      attr.value = "comment2123";   
-      //this.button.createAttribute('data-comment');
-      //tags[i].setAttributeNode(attr);
-      //tag.innerHTML=
-      console.warn("attr; ",);
-      tag.getElementsByTagName("comment")[i].setAttributeNode(attr);
-
-      
-    }
-    */
-    //tags
-
-    /*
-    console.warn("tag; ",tags);
-    tag.innerHTML = text;
-
-      var t = tag.getElementsByTagName("comment");
-      var ele = [];
-      for (var i = 0; i < t.length; i++) {
-        ele.push(t[i].tagName);
-      }
-
-     console.log(ele); */
   }
 
   getAllText('editabletext',text);
@@ -163,7 +100,12 @@
     },
     extensions: {
       'highlighter': new HighlighterButton()
-    }
+    },
+    paste: {
+      // This example includes the default options for paste, if nothing is passed this is what it used
+      forcePlainText: false,
+      cleanPastedHtml: false,
+  }
    // buttonLabels: 'fontawesome', // use font-awesome icons for other buttons
  
   });
@@ -276,6 +218,9 @@ function getCommentID(getValue){
   var commentTextArea = document.getElementById('commenttextarea');
   var comments = document.getElementById('comments');
   var modalForm = document.getElementById('modalform');
+  var fixBtn = document.getElementById('fixbtn');
+
+  console.warn("getcommentid: ",getValue);
 
   if(localStorage.getItem(getValue)){
     comments.innerHTML=localStorage.getItem(getValue);
@@ -292,6 +237,7 @@ function getCommentID(getValue){
   var att = document.createAttribute("data-comid"); 
   var att2 = document.createAttribute("data-tcomid"); 
   var att3 = document.createAttribute("data-formid"); 
+  var att4 = document.createAttribute("data-fixbtnid"); 
 
   //var newCommentId=Date.now();
   //newNode.ondblclick = function() { alert('blah'); };
@@ -299,9 +245,11 @@ function getCommentID(getValue){
   att.value = getValue;  
   att2.value = getValue;  
   att3.value = getValue;  
+  att4.value = getValue;  
   comments.setAttributeNode(att);
   commentTextArea.setAttributeNode(att2);
   modalForm.setAttributeNode(att3);
+  fixBtn.setAttributeNode(att4);
   
   //comments.appendChild(content);
 }
@@ -324,177 +272,19 @@ function saveComment(){
   
 }
 
+
+function fixedWord(e){
+  console.warn("fixedWord; ",e.dataset.fixbtnid);
+  var getComID = e.dataset.fixbtnid;
+  console.warn("fixed btn: ",getComID);
+  var getCommentEl=document.querySelector(`[data-commentid="${getComID}"]`);
+  getCommentEl.className +=" success";
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         // Function to get the Selected Text 
-         function getSelectedText() {
-            var selectedText = '';
-
-            // window.getSelection
-            if (window.getSelection) {
-                selectedText = window.getSelection();
-            }
-            // document.getSelection
-            else if (document.getSelection) {
-                selectedText = document.getSelection();
-            }
-            // document.selection
-            else if (document.selection) {
-                selectedText = 
-                document.selection.createRange().text;
-            } else return;
-            // To write the selected text into the textarea
-            console.warn("selectedText: ",selectedText);
-            console.warn("selectedText: ",selectedText.baseNode.textContent);
-            console.warn("selectedText: ",selectedText.baseNode.data);
-           // document.testform.selectedtext.value = selectedText;
-        }
-
-
-        function getSelectedText2() {
-            var selectedText = '';
-
-            // window.getSelection
-            if (window.getSelection) {
-                selectedText = window.getSelection();
-            }
-            // document.getSelection
-            else if (document.getSelection) {
-                selectedText = document.getSelection();
-            }
-            // document.selection
-            else if (document.selection) {
-                selectedText = 
-                document.selection.createRange().text;
-            } else return;
-            // To write the selected text into the textarea
-            console.warn("selectedText: ",selectedText);
-            console.warn("selectedText: ",selectedText.baseNode.textContent);
-            console.warn("selectedText: ",selectedText.baseNode.data);
-
-
-
-            var highLight = '<b style="font-weight:bold;">' + selectedText.baseNode.textContent + '</b>';
-
-            document.body.innerHTML = document.body.innerHTML.replace(window.getSelection(), highLight);
-           // document.testform.selectedtext.value = selectedText;
-        }
-
-
-        function makeBold(){
-            var highlight = window.getSelection();  
-            console.warn("highlight; ",highlight.textContent);
-            //var span = '<b style="font-weight:bold;">' + highlight + '</b>';
-        
-            //document.body.innerHTML = document.body.innerHTML.replace(window.getSelection(), span);
-           // document.body.innerHTML = document.body.innerHTML.replace(new RegExp(highlight , 'g'), span);
-        }
-
-
-
-
-        //selected color 
-       /* document.addEventListener('pointerup', e => {
-            const selection = window.getSelection();
-          
-            if (selection.type === 'Range') {
-              for (let i = 0; i < selection.rangeCount; i++) {
-                const range = selection.getRangeAt(i);
-                playAnimation(range.commonAncestorContainer);
-              }
-            }
-          });
-          
-          function playAnimation(el) {
-            if (el.nodeType === Node.TEXT_NODE) {
-              el = el.parentNode;
-            }
-          console.warn("animation");
-            el.classList.add('highlight2');
-            /*setTimeout(() => {
-              el.classList.add('highlight');
-            }, 0);
-          } */
-
-
-
-
-          function changeSelectedText(){
-
-          }
-
-
-
-
-
-
-
-
-/*
-          // code for IE
-var textarea = document.getElementById("editabletext");
- 
-if (document.selection)
-			{
-				textarea.focus();
-				var sel = document.selection.createRange();
-                                // alert the selected text in textarea
-				alert(sel.text);
- 
-                               // Finally replace the value of the selected text with this new replacement one
-				sel.text = '<b>' + sel.text + '</b>';
-			}
- 
- 
- */
- 
-// code for Mozilla
- 
-
-
-function getSelectedText3(){
-
-  var textarea = document.getElementById("editabletext");
- console.warn("text textarea",textarea)
- 
-    var len = textarea.textContent;
-    console.warn("text len", len.length)
-   var start = textarea.selectionStart;
-   console.warn("start", start)
-   var end = textarea.selectionEnd;
-   console.warn("end", end)
-   var sel = textarea.textContent.substring(start, end);
- 
-   // This is the selected text and alert it
-   alert(sel);
- 
-  var replace = '<b class="highlight">' + sel + '<b>';
- 
-  // Here we are replacing the selected text with this one
- textarea.value =  textarea.value.substring(0,start) + replace + textarea.value.substring(end,len);
-}
-
-/*
-var att = document.createAttribute("data-comment");       // Create a "class" attribute
-att.value = "comment1";   
-//this.button.createAttribute('data-comment');
-this.button.setAttributeNode(att);
-this.button.innerHTML = '<b>Comment</b>';  */
 
 
 

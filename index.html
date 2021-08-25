@@ -15,15 +15,28 @@
                 color:#fff;
                 z-index: 999999;
             }
+            .highlight.success{
+              background-color: greenyellow;
+            }
+            .blah{
+              border:1px solid #999999;
+              min-height: 200px;
+              width:100%;
+            }
         </style>
 </head>
 <body>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="editable" id="editabletext">
+                <!--<div class="editable" id="editabletext" contenteditable="true">
                   
                 </div>
+                <textarea  class="editable" id="editabletext" contenteditable="true" name=""  cols="30" rows="10"></textarea>
+                
+-->
+
+                <div class="editable" id="editabletext" contenteditable="true"></div>
             </div>
             <div class="col-md-4">
                 <div class="btn btn-primary" onclick="getSelectedText()">
@@ -54,6 +67,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" id="fixbtn" data-bs-dismiss="modal" onclick="fixedWord(this)"  >Düzenlendi</button>
           <button type="button" class="btn btn-primary" onclick="saveComment()">Save changes</button>
         </div>
       </div>
