@@ -1,24 +1,18 @@
 
   var text='';
   
-
+/** modal  oluşturuluyor comment için **/
   var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
     keyboard: false
   })
 
- 
+ /** modal  oluşturuluyor comment için **/
   if(!localStorage.getItem('text')){
     text="<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> ";
   
   }else{
     text=localStorage.getItem('text');
 
-
-
-
-
-  
-    
     document.addEventListener("DOMContentLoaded", function(e) {
    // var tag = document.createElement("div");
    var tag = document.getElementById("editabletext");
@@ -32,21 +26,18 @@
    console.warn("tags12312321312; ", tag.getElementsByTagName("comment").length);
    //tags=Array.from(tag.getElementsByTagName("comment"));
 
-
+      /*** yorum yapılan cümleler burada yeniden oluşturuluyor */
    for (let i = 0; i < tags.length; i++) {
     console.warn("tags; ", tags[i]);
     tag.getElementsByTagName("comment")[i].ondblclick = function(ev) { seeComment(ev);}
 
-    var attr = document.createAttribute("data-comment234");       // Create a "class" attribute
-    attr.value = "comment2123";   
-    //this.button.createAttribute('data-comment');
-    //tags[i].setAttributeNode(attr);
-    //tag.innerHTML=
-    console.warn("attr; ",);
-    tag.getElementsByTagName("comment")[i].setAttributeNode(attr);
+      var attr = document.createAttribute("data-comment234");       // Create a "class" attribute
+      attr.value = "comment2123";   
 
-    
-  } 
+      console.warn("attr; ",);
+      tag.getElementsByTagName("comment")[i].setAttributeNode(attr);
+
+    } 
     });
 
   }
@@ -79,7 +70,7 @@
       return this.button;
     }
   });
-
+/** medium-editor start **/
   var editor = new MediumEditor('.editable', {
     toolbar: {
         /* These are the default options for the toolbar,
@@ -109,8 +100,10 @@
    // buttonLabels: 'fontawesome', // use font-awesome icons for other buttons
  
   });
+/** medium-editor start **/
 
 
+/** comment kısımları kontrol ediliyor **/
   addEventListener('click',function(e){
    // console.warn("target: ",e.target.dataset.comment);
 
@@ -134,6 +127,9 @@
 
 
   });
+
+
+
 
 //  selected fonksiyonumuz
 function replaceSelectedText() {
@@ -160,29 +156,15 @@ function replaceSelectedText() {
       att.value = newCommentId;  
       newNode.setAttributeNode(att);
       newNode.appendChild(content);
-
-      //newNode.appendChild(document.createTextNode(sel));
-      /*if (sel.anchorNode && (sel.anchorNode == sel.extentNode)) {
-        if (sel.toString() == sel.anchorNode.textContent) {
-          sel = sel.anchorNode.parentElement.outerHTML;
-        }
-      }*/
-
       newNode.insertAdjacentHTML("beforeend", sel);
-      //newNode.appendChild(document.createElementNode(sel));
       console.warn('sel', sel);
-      //newNode.appendChild(sel.focusNode);
-
-      //replacementText = '<b class="highlight">' + sel + '<b>';
-      
+ 
       if (sel.rangeCount) {
           range = sel.getRangeAt(0);
           console.warn("range: ",range);
           range.deleteContents();
           //range.insertNode(document.createTextNode(replacementText));
           range.insertNode(newNode);
-
-   
           //var myModal = document.getElementById('exampleModal') // relatedTarget
           myModal.show()
 
@@ -200,11 +182,11 @@ function replaceSelectedText() {
 }
 
 
+
 function seeComment(e){
   console.warn("seeComment element: ",e.target);
   console.warn("seeComment element dataset: ",e.target.dataset.commentid);
   myModal.show()
-
   getCommentID(e.target.dataset.commentid)
 }
 
@@ -254,13 +236,12 @@ function getCommentID(getValue){
   //comments.appendChild(content);
 }
 
-
+/** yayıncı yada yazar tarafından ilgili cümleye atanan yorumun    kaydet buttonu ile kaydedileceği  fonksiyon **/
 function saveComment(){
   var commentTextArea = document.getElementById('commenttextarea');
   var comments = document.getElementById('comments');
   var getComID=commentTextArea.dataset.tcomid;
 
-  //var getTextValue=document.querySelector(`[data-foo="${getComID}"]`)
   var getTextValue=document.querySelector(`[data-tcomid="${getComID}"]`)
 
   console.warn("comments.dataset; ",commentTextArea.dataset.tcomid);
@@ -272,7 +253,7 @@ function saveComment(){
   
 }
 
-
+/** yazı düzenlendikten sonra  yazarın  düzenlendi button'una tıkladığında calisacak fonksiyon **/
 function fixedWord(e){
   console.warn("fixedWord; ",e.dataset.fixbtnid);
   var getComID = e.dataset.fixbtnid;
