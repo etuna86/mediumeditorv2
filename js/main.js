@@ -65,6 +65,69 @@
       return this.button;
     }
   });
+  /*** Medium editor'e yazıları sola hizalaması için harici bir button ekliyoruz  ***/
+  var alignLeftBtn = MediumEditor.Extension.extend({
+    name: 'alignleft',
+  
+    init: function () {
+      this.button = this.document.createElement('button');
+      this.button.classList.add('medium-editor-action');
+      var commentEl=document.createElement('comment');
+      var attr = document.createAttribute("data-textalignment");
+      attr.value = "left";   
+      commentEl.setAttributeNode(attr);
+      commentEl.appendChild(document.createTextNode('Align Left'));
+      this.button.appendChild(commentEl);
+    },
+  
+    getButton: function () {
+      return this.button;
+    }
+  });
+
+  /*** Medium editor'e yazıları ortalaması için harici bir button ekliyoruz  ***/
+  var alignCenterBtn = MediumEditor.Extension.extend({
+    name: 'aligncenter',
+  
+    init: function () {
+      this.button = this.document.createElement('button');
+      this.button.classList.add('medium-editor-action');
+      var commentEl=document.createElement('comment');
+      var attr = document.createAttribute("data-textalignment");
+      attr.value = "center";   
+      commentEl.setAttributeNode(attr);
+      commentEl.appendChild(document.createTextNode('Align Center'));
+      this.button.appendChild(commentEl);
+    },
+  
+    getButton: function () {
+      return this.button;
+    }
+  });
+
+    /*** Medium editor'e yazıları sola hizalaması için harici bir button ekliyoruz  ***/
+    var alignRightBtn = MediumEditor.Extension.extend({
+      name: 'alignright',
+    
+      init: function () {
+        this.button = this.document.createElement('button');
+        this.button.classList.add('medium-editor-action');
+        var commentEl=document.createElement('comment');
+        var attr = document.createAttribute("data-textalignment");
+        attr.value = "right";   
+        commentEl.setAttributeNode(attr);
+        //commentEl.innerHTML='<i class="fa fa-align-right" aria-hidden="true"></i>';
+        //commentEl.appendChild('<i class="fa fa-align-right" aria-hidden="true"></i>');
+        commentEl.appendChild(document.createTextNode('Align Right'));
+        this.button.appendChild(commentEl);
+      },
+    
+      getButton: function () {
+        return this.button;
+      }
+    });
+
+
 
     /*** Bu kısım Medium editor'ü çalıştırıdığımız alan  ***/
 /** medium-editor start **/
@@ -73,7 +136,10 @@
         /* These are the default options for the toolbar,
            if nothing is passed this is what is used */
         allowMultiParagraphSelection: true,
-        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'highlighter'],
+        buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'quote', 'highlighter','alignleft','aligncenter',{
+          name: 'alignright',
+          contentDefault: '<i class="fa fa-align-right" aria-hidden="true"></i>'
+      }],
         diffLeft: 0,
         diffTop: -10,
         firstButtonClass: 'medium-editor-button-first',
@@ -87,7 +153,10 @@
         updateOnEmptySelection: false
     },
     extensions: {
-      'highlighter': new HighlighterButton()
+      'highlighter': new HighlighterButton(),
+      'alignleft': new alignLeftBtn(),
+      'aligncenter': new alignCenterBtn(),
+      'alignright': new alignRightBtn(),
     },
     paste: {
       // This example includes the default options for paste, if nothing is passed this is what it used
@@ -108,6 +177,10 @@
     var editableText=document.getElementById('editabletext');
     var currentText=editableText.innerHTML;
      var currentCom=e.target.dataset.comment;
+     if(e.target.dataset.textalignment){
+      allTextAddStlye(e.target.dataset.textalignment);
+     }
+     
      var currentClass=e.target.classList;
      console.warn("currentClass 1; ",e.target);
      console.warn("currentClass; ",currentClass);
@@ -127,6 +200,18 @@
 
 
 
+
+  /*** taxt hizalama fonksiyonu center, right, left ***/
+function allTextAddStlye(textAlignment){
+  var editableText=document.getElementById('editabletext');
+  console.warn("editableText; ", editableText);
+  var alignment=editableText.getElementsByTagName('*');
+  for (let i = 0; i < alignment.length; i++) {
+    alignment[i].style.textAlign=textAlignment;
+  }
+  console.warn("alignment: ", alignment);
+
+}
 
 //  selected fonksiyonumuz
 function replaceSelectedText() {
